@@ -105,18 +105,13 @@ IntersectionObserver 提供了一种异步观察目标元素与根元素交叉�
             // 获取当前进入可视区域列表项的索引
             const CurIndex = +entry.target.getAttribute("index");
 
-            // 此时列表中只有初始时的数据，无法滚动，无法触发监视器来添加数据，因此直接添加新的items
+            // 此时列表中只有初始时的数据，直接添加新的items
             if (CurIndex === endIndex - 1 && window.pageYOffset <= 50) 
               addItems();
 
             // 列表滚动，当前进入可视区的元素是列表中的最后一条数据
             // 滚出可视区的元素的个数为visibleCount - 1到visibleCount之间
-            // 将(visibleCount - 1) * itemHeight + 50作为条件而不是visibleCount * itemHeight
-            // 因为若将后者作为条件，列表中的最后一个元素已完整的进入了可视区，可视区就无法再滚动，也就无法触发监视器
-            if (
-              CurIndex === endIndex - 1 &&
-              window.pageYOffset >= (visibleCount - 1) * itemHeight + 50
-            ) {
+            if (CurIndex === endIndex - 1 && window.pageYOffset >= (visibleCount - 1) * itemHeight) {
               removeItems();
               addItems();
             }
